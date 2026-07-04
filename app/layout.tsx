@@ -4,10 +4,10 @@ import { Toaster } from 'sonner'
 
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Inter, IBM_Plex_Sans } from 'next/font/google'
+import { Kalam, Patrick_Hand } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', weight: ['400', '500', '600'] })
-const ibmPlexSans = IBM_Plex_Sans({ subsets: ['latin'], variable: '--font-ibm-plex', weight: ['400', '500', '600', '700'] })
+const kalam = Kalam({ subsets: ['latin'], variable: '--font-kalam', weight: ['300', '400', '700'] })
+const patrickHand = Patrick_Hand({ subsets: ['latin'], variable: '--font-patrick-hand', weight: ['400'] })
 
 export const metadata: Metadata = {
   title: 'QuoteFlow - Professional Proposal Builder',
@@ -45,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexSans.variable} light`}>
-      <body className="font-sans antialiased text-[var(--color-text-primary)]">
+    <html lang="en" className={`${kalam.variable} ${patrickHand.variable} light`}>
+      <body className="font-sans antialiased text-[#2d2d2d] bg-[#fdfbf7] selection:bg-[#ff4d4d] selection:text-white">
         {children}
         <Toaster />
         {process.env.NODE_ENV === 'production' && <Analytics />}

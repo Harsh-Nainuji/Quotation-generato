@@ -76,45 +76,45 @@ export function BuilderToolbar({
     <div className="flex flex-wrap items-center justify-center gap-3">
       <button
         onClick={onExportPDF}
-        className="glass-button h-11 px-5 gap-2 text-sm"
+        className="hand-button-secondary !py-2 !px-4 text-sm hover:-rotate-2"
         title="Download as PDF"
       >
-        <Download className="w-4 h-4" />
+        <Download className="w-5 h-5 mr-1 stroke-[3px]" />
         <span className="hidden sm:inline">PDF</span>
       </button>
 
       <button
         onClick={onPrint}
-        className="glass-button h-11 px-5 gap-2 text-sm"
+        className="hand-button-secondary !py-2 !px-4 text-sm hover:rotate-2"
         title="Print proposal"
       >
-        <Printer className="w-4 h-4" />
+        <Printer className="w-5 h-5 mr-1 stroke-[3px]" />
         <span className="hidden sm:inline">Print</span>
       </button>
 
       <button
         onClick={onGenerateQR}
-        className="glass-button h-11 px-5 gap-2 text-sm"
+        className="hand-button-secondary !py-2 !px-4 text-sm hover:-rotate-1"
         title="Generate QR code"
       >
-        <QrCode className="w-4 h-4" />
+        <QrCode className="w-5 h-5 mr-1 stroke-[3px]" />
         <span className="hidden sm:inline">QR</span>
       </button>
 
       <button
         onClick={handleCopyShareLink}
-        className="glass-button h-11 px-5 gap-2 text-sm disabled:opacity-50"
+        className="hand-button !py-2 !px-4 text-sm disabled:opacity-50 hover:rotate-1"
         disabled={loading}
         title="Copy shareable link"
       >
         {copied ? (
           <>
-            <Check className="w-4 h-4" />
+            <Check className="w-5 h-5 mr-1 stroke-[3px]" />
             <span className="hidden sm:inline">Copied</span>
           </>
         ) : (
           <>
-            <Copy className="w-4 h-4" />
+            <Copy className="w-5 h-5 mr-1 stroke-[3px]" />
             <span className="hidden sm:inline">Share</span>
           </>
         )}
@@ -122,13 +122,13 @@ export function BuilderToolbar({
 
       {!isClient && (
         <>
-          <div className="w-px h-8 bg-white/40 mx-2 hidden sm:block" />
+          <div className="w-0.5 h-8 bg-[var(--color-pencil)] mx-2 hidden sm:block rotate-6" />
           <button
             onClick={handleReset}
-            className="glass-button h-11 px-4 text-sm text-red-500 hover:text-red-600"
+            className="text-[var(--color-marker-red)] hover:scale-110 transition-transform p-2"
             title="Reset proposal"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-5 h-5 stroke-[3px]" />
           </button>
         </>
       )}

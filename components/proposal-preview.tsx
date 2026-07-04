@@ -23,118 +23,113 @@ export function ProposalPreview({ proposal }: ProposalPreviewProps) {
   const total = subtotal + tax;
 
   return (
-    <div className="bg-white text-slate-900 rounded-[24px] overflow-hidden border border-slate-200">
-      {/* Decorative Header */}
-      <div className="h-4 w-full bg-gradient-to-r from-[var(--color-accent-highlight)] to-[var(--color-accent-jade)]"></div>
+    <div className="bg-white text-[var(--color-pencil)] relative">
+      {/* Decorative Header Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-black/5 backdrop-blur-sm -rotate-2 z-10 hidden sm:block"></div>
       
-      <div className="p-10 space-y-12">
+      <div className="p-8 sm:p-12 space-y-12 bg-white" style={{ 
+        backgroundImage: 'repeating-linear-gradient(transparent, transparent 31px, #e5e0d8 31px, #e5e0d8 32px)',
+        backgroundPositionY: '52px'
+      }}>
         {/* Header Section */}
-        <div className="flex justify-between items-start">
-          <div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-[var(--color-accent-highlight)] mb-2 uppercase">Proposal</h1>
-            <p className="text-slate-500 font-medium tracking-wide">#{proposal.proposalNumber || 'DRAFT'}</p>
+        <div className="flex flex-col-reverse sm:flex-row justify-between items-start gap-8 relative bg-white pb-4 z-10 border-b-2 border-dashed border-[var(--color-pencil)]">
+          <div className="bg-white px-2">
+            <h1 className="text-5xl font-heading font-extrabold text-[var(--color-pencil)] mb-2 uppercase rotate-1">Proposal</h1>
+            <p className="font-bold text-xl opacity-80">#{proposal.proposalNumber || 'DRAFT'}</p>
           </div>
-          <div className="text-right">
-            <div className="w-12 h-12 bg-[var(--color-accent-highlight)] text-white rounded-lg flex items-center justify-center font-bold text-xl ml-auto mb-3 shadow-md">
+          <div className="sm:text-right bg-white px-2">
+            <div className="w-16 h-16 bg-[var(--color-marker-red)] text-white flex items-center justify-center font-heading font-bold text-3xl sm:ml-auto mb-3 border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] -rotate-3" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
               {proposal.companyName ? proposal.companyName.substring(0, 2).toUpperCase() : 'QF'}
             </div>
-            <h3 className="font-bold text-lg text-slate-800">{proposal.companyName || 'Your Company'}</h3>
-            {proposal.email && <p className="text-sm text-slate-500 mt-1">{proposal.email}</p>}
-            {proposal.phone && <p className="text-sm text-slate-500">{proposal.phone}</p>}
+            <h3 className="font-heading font-bold text-2xl">{proposal.companyName || 'Your Company'}</h3>
+            {proposal.email && <p className="text-lg opacity-80 mt-1">{proposal.email}</p>}
+            {proposal.phone && <p className="text-lg opacity-80">{proposal.phone}</p>}
           </div>
         </div>
 
         {/* Client & Date Info */}
-        <div className="grid grid-cols-2 gap-12 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 bg-[var(--color-paper)] p-6 border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] relative z-10 rotate-1" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
           <div>
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Prepared For</h4>
-            <p className="text-xl font-bold text-slate-800">{proposal.clientName || 'Client Name'}</p>
+            <h4 className="font-bold uppercase tracking-widest mb-1 opacity-70">Prepared For</h4>
+            <p className="text-2xl font-heading font-bold">{proposal.clientName || 'Client Name'}</p>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Date</h4>
-              <p className="font-medium text-slate-800">{new Date(proposal.date).toLocaleDateString()}</p>
+              <h4 className="font-bold uppercase tracking-widest mb-1 opacity-70">Date</h4>
+              <p className="text-xl font-bold">{new Date(proposal.date).toLocaleDateString()}</p>
             </div>
             <div>
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Valid Until</h4>
-              <p className="font-medium text-slate-800">{new Date(proposal.dueDate).toLocaleDateString()}</p>
+              <h4 className="font-bold uppercase tracking-widest mb-1 opacity-70">Valid Until</h4>
+              <p className="text-xl font-bold">{new Date(proposal.dueDate).toLocaleDateString()}</p>
             </div>
           </div>
         </div>
 
-        {/* Description */}
-        {proposal.description && (
-          <div>
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Project Overview</h4>
-            <p className="text-slate-700 leading-relaxed">{proposal.description}</p>
-          </div>
-        )}
-
-        {/* Line Items */}
-        <div>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b-2 border-slate-200">
-                <th className="text-left py-4 font-bold text-slate-400 uppercase tracking-wider">Item Description</th>
-                <th className="text-center py-4 font-bold text-slate-400 uppercase tracking-wider w-24">Qty</th>
-                <th className="text-right py-4 font-bold text-slate-400 uppercase tracking-wider w-32">Rate</th>
-                <th className="text-right py-4 font-bold text-slate-400 uppercase tracking-wider w-32">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {proposal.lineItems.map((item, idx) => (
-                <tr key={item.id} className={idx !== proposal.lineItems.length - 1 ? 'border-b border-slate-100' : ''}>
-                  <td className="py-5">
-                    <p className="font-bold text-slate-800">{item.description || 'Untitled Item'}</p>
-                    <span className="text-xs text-slate-400 px-2 py-0.5 bg-slate-100 rounded-md mt-1 inline-block capitalize">{item.type}</span>
-                  </td>
-                  <td className="text-center py-5 font-medium text-slate-600">{item.quantity}</td>
-                  <td className="text-right py-5 font-medium text-slate-600">
-                    {currencySymbol}{item.rate.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                  </td>
-                  <td className="text-right py-5 font-bold text-slate-800">
-                    {currencySymbol}{(item.quantity * item.rate).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="bg-white relative z-10 inline-block px-2">
+          <h2 className="text-3xl font-heading font-bold">{proposal.title || 'Proposal Title'}</h2>
+          <div className="h-2 w-full scribble-underline mt-1"></div>
         </div>
 
-        {/* Totals Box */}
-        <div className="flex justify-end pt-4">
-          <div className="w-full md:w-[350px] bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex justify-between text-slate-500 font-medium">
-              <span>Subtotal</span>
-              <span>{currencySymbol}{subtotal.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
-            </div>
-            {proposal.taxRate > 0 && (
-              <div className="flex justify-between text-slate-500 font-medium">
-                <span>Tax ({proposal.taxRate}%)</span>
-                <span>{currencySymbol}{tax.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+        {/* Line Items Table */}
+        <div className="bg-white relative z-10 border-2 border-[var(--color-pencil)]" style={{ borderRadius: '15px' }}>
+          <div className="grid grid-cols-12 gap-4 p-4 border-b-2 border-[var(--color-pencil)] bg-[var(--color-postit)] font-bold text-lg" style={{ borderTopLeftRadius: '13px', borderTopRightRadius: '13px' }}>
+            <div className="col-span-6">Description</div>
+            <div className="col-span-2 text-right">Qty</div>
+            <div className="col-span-2 text-right">Rate</div>
+            <div className="col-span-2 text-right">Amount</div>
+          </div>
+          <div className="divide-y-2 divide-dashed divide-[var(--color-pencil)]">
+            {proposal.lineItems.map((item, index) => (
+              <div key={item.id} className={`grid grid-cols-12 gap-4 p-4 items-center ${index % 2 !== 0 ? 'bg-slate-50' : 'bg-white'}`}>
+                <div className="col-span-6">
+                  <p className="font-bold text-xl">{item.description || 'Item Description'}</p>
+                  {item.type === 'function' && (
+                    <span className="inline-block mt-1 text-[11px] uppercase font-bold bg-[var(--color-marker-red)] text-white px-2 rounded-sm rotate-2">Function</span>
+                  )}
+                  {item.isNegotiable === false && (
+                    <span className="inline-block mt-1 ml-2 text-[11px] uppercase font-bold bg-slate-200 text-slate-700 px-2 rounded-sm -rotate-1">Fixed</span>
+                  )}
+                </div>
+                <div className="col-span-2 text-right font-bold text-lg">{item.quantity}</div>
+                <div className="col-span-2 text-right font-bold text-lg">{currencySymbol}{item.rate.toFixed(2)}</div>
+                <div className="col-span-2 text-right font-bold text-lg">{currencySymbol}{(item.quantity * item.rate).toFixed(2)}</div>
               </div>
-            )}
-            <div className="pt-4 mt-2 border-t border-slate-200 flex justify-between items-center">
-              <span className="text-lg font-bold text-slate-800">Total</span>
-              <span className="text-2xl font-black text-[var(--color-accent-highlight)]">
-                {currencySymbol}{total.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Totals */}
+        <div className="flex justify-end relative z-10">
+          <div className="w-72 space-y-3 bg-white p-6 border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] -rotate-1" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
+            <div className="flex justify-between font-bold text-lg opacity-80">
+              <span>Subtotal</span>
+              <span>{currencySymbol}{subtotal.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between font-bold text-lg opacity-80">
+              <span>Tax ({proposal.taxRate}%)</span>
+              <span>{currencySymbol}{tax.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between items-center pt-4 border-t-2 border-[var(--color-pencil)] text-2xl font-heading font-bold text-[var(--color-marker-red)]">
+              <span>Total</span>
+              <span>{currencySymbol}{total.toFixed(2)}</span>
             </div>
           </div>
         </div>
 
-        {/* Notes */}
+        {/* Notes Section */}
         {proposal.notes && (
-          <div className="pt-8 border-t border-slate-100">
-            <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Additional Notes</h4>
-            <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">{proposal.notes}</p>
+          <div className="bg-white relative z-10 mt-12 p-6 border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] rotate-1" style={{ borderRadius: '15px 255px 15px 255px / 255px 15px 255px 15px' }}>
+            <h4 className="font-heading font-bold text-2xl mb-4 underline decoration-[var(--color-marker-red)] decoration-4 underline-offset-4">Notes & Terms</h4>
+            <p className="whitespace-pre-wrap font-medium text-lg leading-relaxed">{proposal.notes}</p>
           </div>
         )}
-      </div>
-      
-      {/* Footer Decoration */}
-      <div className="bg-slate-50 py-4 text-center text-xs text-slate-400 font-medium border-t border-slate-100">
-        Generated by QuoteFlow • Secure Proposal Management
+        
+        {/* Status Stamp */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 opacity-10 flex flex-col items-center justify-center">
+          <div className="w-64 h-64 border-8 border-current rounded-full flex items-center justify-center -rotate-12">
+            <span className="text-5xl font-heading font-bold uppercase tracking-widest">{proposal.status || 'DRAFT'}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

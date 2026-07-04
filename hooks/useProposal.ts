@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ProposalData } from '@/lib/types';
 import { v4 as uuidv4 } from 'uuid';
-
+/*new change*/
 const DEFAULT_PROPOSAL: ProposalData = {
   id: uuidv4(),
   clientName: '',
@@ -148,7 +148,7 @@ export function useProposal() {
           body: JSON.stringify(proposal)
         });
         const data = await res.json();
-        
+
         if (data.success && data.quote) {
           setProposal(data.quote);
           const url = `${window.location.origin}${window.location.pathname}?id=${data.quote.shortId}`;
@@ -165,7 +165,7 @@ export function useProposal() {
       setIsSaving(false);
     }
   }, [proposal]);
-  
+
   const submitNegotiation = useCallback(async (role: 'creator' | 'client', action: 'agree' | 'negotiate') => {
     if (!proposal.shortId) return false;
     setIsSaving(true);
@@ -174,28 +174,28 @@ export function useProposal() {
         lastModifiedBy: role,
         status: action === 'agree' ? (proposal.status === 'shared' ? 'negotiating' : 'agreed') : 'negotiating'
       };
-      
+
       if (role === 'creator') updates.creatorAgreed = action === 'agree';
       if (role === 'client') updates.clientAgreed = action === 'agree';
-      
+
       // If both agreed, set status to agreed
-      if ((role === 'creator' && action === 'agree' && proposal.clientAgreed) || 
-          (role === 'client' && action === 'agree' && proposal.creatorAgreed)) {
+      if ((role === 'creator' && action === 'agree' && proposal.clientAgreed) ||
+        (role === 'client' && action === 'agree' && proposal.creatorAgreed)) {
         updates.status = 'agreed';
       } else if (action === 'negotiate') {
         // If one negotiated, reset the other's agreement
         if (role === 'creator') updates.clientAgreed = false;
         if (role === 'client') updates.creatorAgreed = false;
       }
-      
+
       const merged = { ...proposal, ...updates };
-      
+
       const res = await fetch(`/api/quotes/${proposal.shortId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(merged)
       });
-      
+
       const data = await res.json();
       if (data.success) {
         setProposal(data.quote);

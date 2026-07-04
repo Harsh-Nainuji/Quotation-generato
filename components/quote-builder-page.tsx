@@ -119,36 +119,30 @@ export function QuoteBuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-canvas-light)] relative flex flex-col p-2 lg:p-4 font-sans overflow-hidden">
+    <div className="min-h-screen bg-[var(--color-canvas)] relative flex flex-col p-2 lg:p-4 font-sans overflow-hidden">
       
-      {/* Atmospheric Lighting Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[var(--color-accent-jade)]/20 blur-[180px] mix-blend-normal animate-atmos-1"></div>
-        <div className="absolute bottom-[-10%] right-[-5%] w-[60%] h-[60%] rounded-full bg-[var(--color-accent-moonstone)]/15 blur-[180px] mix-blend-normal animate-atmos-2"></div>
-        <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] rounded-full bg-[var(--color-accent-glacier)]/20 blur-[150px] mix-blend-normal animate-atmos-1" style={{ animationDelay: '2s' }}></div>
-      </div>
-
-      {/* Main Glass App Window */}
-      <div className="relative z-10 w-full max-w-[1600px] mx-auto h-[calc(100vh-2rem)] flex flex-col glass-card">
+      {/* Main Hand-Drawn App Window */}
+      <div className="relative z-10 w-full max-w-[1600px] mx-auto h-[calc(100vh-2rem)] flex flex-col hand-card overflow-hidden bg-white">
         
         {/* Header */}
-        <header className="border-b border-white/25 glass-secondary z-30 px-6 py-4">
+        <header className="border-b-2 border-dashed border-[var(--color-pencil)] bg-[var(--color-paper)] z-30 px-6 py-4 relative">
+          <div className="deco-tape"></div>
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <Link href="/">
-              <button className="flex items-center gap-2 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-all font-medium">
-                <ChevronLeft className="w-4 h-4" />
+              <button className="flex items-center gap-2 text-[var(--color-pencil)] font-heading font-bold text-lg hover:-translate-x-1 transition-transform">
+                <ChevronLeft className="w-5 h-5 stroke-[3]" />
                 <span>Back</span>
               </button>
             </Link>
             
             <div className="flex flex-col items-center">
-              <h1 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">Quote Builder</h1>
+              <h1 className="text-3xl font-bold font-heading text-[var(--color-pencil)] rotate-1">Quote Builder</h1>
               {proposal.status && (
                 <span className={`glass-badge mt-2 ${
-                  proposal.status === 'agreed' ? 'text-green-600' :
-                  proposal.status === 'negotiating' ? 'text-orange-600' :
-                  proposal.status === 'shared' ? 'text-[var(--color-accent-highlight)]' :
-                  'text-[var(--color-text-secondary)]'
+                  proposal.status === 'agreed' ? 'text-green-700 bg-green-100' :
+                  proposal.status === 'negotiating' ? 'text-orange-700 bg-orange-100' :
+                  proposal.status === 'shared' ? 'text-[var(--color-pen-blue)] bg-blue-100' :
+                  'text-[var(--color-pencil)] bg-gray-200'
                 }`}>
                   {proposal.status}
                 </span>
@@ -156,16 +150,16 @@ export function QuoteBuilderPage() {
             </div>
             
             {/* Role Switcher */}
-            <div className="flex glass-secondary rounded-[22px] p-1 shadow-inner border-t-0">
+            <div className="flex border-2 border-[var(--color-pencil)] rounded-xl overflow-hidden shadow-[2px_2px_0_0_#2d2d2d] bg-white -rotate-1">
               <button
                 onClick={() => handleRoleChange('creator')}
-                className={`px-5 py-2 text-sm rounded-[18px] transition-all duration-300 font-semibold ${role === 'creator' ? 'glass-primary shadow-sm text-[var(--color-accent-highlight)]' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`}
+                className={`px-4 py-1.5 text-sm font-bold font-heading border-r-2 border-[var(--color-pencil)] transition-colors ${role === 'creator' ? 'bg-[var(--color-marker-red)] text-white' : 'hover:bg-[var(--color-paper)]'}`}
               >
                 Creator
               </button>
               <button
                 onClick={() => handleRoleChange('client')}
-                className={`px-5 py-2 text-sm rounded-[18px] transition-all duration-300 font-semibold ${role === 'client' ? 'glass-primary shadow-sm text-[var(--color-accent-highlight)]' : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'}`}
+                className={`px-4 py-1.5 text-sm font-bold font-heading transition-colors ${role === 'client' ? 'bg-[var(--color-marker-red)] text-white' : 'hover:bg-[var(--color-paper)]'}`}
               >
                 Client
               </button>
@@ -174,8 +168,8 @@ export function QuoteBuilderPage() {
         </header>
 
         {/* Toolbar */}
-        <div className="flex justify-center pt-6 pb-2 px-6">
-          <div className="glass-secondary rounded-full px-6 py-3 flex flex-col sm:flex-row items-center justify-center gap-6 w-auto shadow-glass border border-white/20">
+        <div className="flex justify-center pt-6 pb-4 px-6 relative z-20">
+          <div className="bg-[var(--color-postit)] border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] px-6 py-3 flex flex-col sm:flex-row items-center justify-center gap-6 w-auto rotate-1" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
             <BuilderToolbar
               onExportPDF={handleExportPDF}
               onPrint={handlePrint}
@@ -187,8 +181,8 @@ export function QuoteBuilderPage() {
             />
             {shareUrl && (
               <>
-                <div className="w-px h-8 bg-white/20 hidden sm:block" />
-                <a href={`mailto:?subject=Proposal%20${proposal.proposalNumber}&body=Here%20is%20your%20proposal%20link:%20${shareUrl}`} className="glass-button text-[var(--color-accent-highlight)]">
+                <div className="w-0.5 h-8 bg-[var(--color-pencil)] hidden sm:block rotate-12" />
+                <a href={`mailto:?subject=Proposal%20${proposal.proposalNumber}&body=Here%20is%20your%20proposal%20link:%20${shareUrl}`} className="hand-button-secondary py-2 px-4 text-sm -rotate-2">
                   <Mail className="w-4 h-4 mr-2" /> Email Link
                 </a>
               </>
@@ -198,17 +192,17 @@ export function QuoteBuilderPage() {
 
         {/* Negotiation UI */}
         {proposal.shortId && proposal.status !== 'agreed' && (
-          <div className="glass-secondary border-b border-orange-200/30 px-6 py-5">
+          <div className="bg-orange-100 border-b-2 border-dashed border-[var(--color-pencil)] px-6 py-5 relative z-10">
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
               <div>
-                <h3 className="text-xl font-bold text-[var(--color-text-primary)] tracking-tight">Negotiation in Progress</h3>
-                <p className="text-[var(--color-text-secondary)] font-medium mt-1">
+                <h3 className="text-2xl font-bold font-heading text-[var(--color-pencil)] tracking-tight">Negotiation in Progress</h3>
+                <p className="text-[var(--color-pencil)] text-lg mt-1 opacity-80">
                   {proposal.lastModifiedBy === role ? "Waiting for the other party to respond." : "The other party has made changes or is waiting for your approval."}
                 </p>
               </div>
               <div className="flex gap-4">
                 <button 
-                  className="glass-button text-[var(--color-accent-highlight)] opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="hand-button-secondary text-sm px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => submitNegotiation(role, 'negotiate')}
                   disabled={isSaving || proposal.lastModifiedBy === role}
                 >
@@ -216,11 +210,11 @@ export function QuoteBuilderPage() {
                   Counter Offer
                 </button>
                 <button 
-                  className="glass-button-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="hand-button text-sm px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={() => submitNegotiation(role, 'agree')}
                   disabled={isSaving || (role === 'creator' && proposal.creatorAgreed) || (role === 'client' && proposal.clientAgreed)}
                 >
-                  <CheckCircle className="w-5 h-5 mr-2" />
+                  <CheckCircle className="w-5 h-5 mr-2 stroke-[3]" />
                   {role === 'creator' && proposal.clientAgreed ? 'Finalize Deal' : role === 'client' && proposal.creatorAgreed ? 'Finalize Deal' : 'I Agree to these Terms'}
                 </button>
               </div>
@@ -229,38 +223,38 @@ export function QuoteBuilderPage() {
         )}
         
         {proposal.status === 'agreed' && (
-          <div className="glass-primary bg-[var(--color-accent-jade)]/20 border-b border-[var(--color-accent-jade)]/30 text-emerald-800 px-6 py-5 text-center">
+          <div className="bg-green-100 border-b-2 border-[var(--color-pencil)] text-green-800 px-6 py-5 text-center relative z-10">
             <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
-              <CheckCircle className="w-7 h-7" />
-              <h2 className="text-2xl font-extrabold tracking-tight">AGREED AND DEAL DONE</h2>
+              <CheckCircle className="w-8 h-8 stroke-[3]" />
+              <h2 className="text-3xl font-heading font-extrabold tracking-tight rotate-1">AGREED AND DEAL DONE</h2>
             </div>
           </div>
         )}
 
         {/* Tab Navigation */}
-        <div className="glass-secondary border-b border-white/20 flex px-6 justify-center">
+        <div className="border-b-2 border-dashed border-[var(--color-pencil)] bg-white flex px-6 justify-center relative z-10">
           <div className="max-w-7xl mx-auto flex gap-12">
             <button
               onClick={() => setPreviewTab('preview')}
-              className={`py-5 font-bold tracking-wide text-sm transition-all duration-300 relative ${previewTab === 'preview' ? 'text-[var(--color-accent-highlight)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}
+              className={`py-4 font-heading font-bold tracking-wide text-xl transition-all duration-300 relative ${previewTab === 'preview' ? 'text-[var(--color-pen-blue)]' : 'text-[var(--color-pencil)]/60 hover:text-[var(--color-pencil)]'}`}
             >
               Document View
-              {previewTab === 'preview' && <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--color-accent-highlight)] rounded-t-full shadow-[0_0_10px_rgba(62,122,140,0.5)] animate-float"></div>}
+              {previewTab === 'preview' && <div className="absolute bottom-0 left-0 w-full h-2 scribble-underline opacity-80"></div>}
             </button>
             <button
               onClick={() => setPreviewTab('flow')}
-              className={`py-5 font-bold tracking-wide text-sm transition-all duration-300 relative ${previewTab === 'flow' ? 'text-[var(--color-accent-highlight)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}
+              className={`py-4 font-heading font-bold tracking-wide text-xl transition-all duration-300 relative ${previewTab === 'flow' ? 'text-[var(--color-pen-blue)]' : 'text-[var(--color-pencil)]/60 hover:text-[var(--color-pencil)]'}`}
             >
               Architecture
-              {previewTab === 'flow' && <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--color-accent-highlight)] rounded-t-full shadow-[0_0_10px_rgba(62,122,140,0.5)] animate-float"></div>}
+              {previewTab === 'flow' && <div className="absolute bottom-0 left-0 w-full h-2 scribble-underline opacity-80"></div>}
             </button>
             {role === 'creator' && (
               <button
                 onClick={() => setPreviewTab('items')}
-                className={`py-5 font-bold tracking-wide text-sm transition-all duration-300 relative lg:hidden ${previewTab === 'items' ? 'text-[var(--color-accent-highlight)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}
+                className={`py-4 font-heading font-bold tracking-wide text-xl transition-all duration-300 relative lg:hidden ${previewTab === 'items' ? 'text-[var(--color-pen-blue)]' : 'text-[var(--color-pencil)]/60 hover:text-[var(--color-pencil)]'}`}
               >
                 Edit
-                {previewTab === 'items' && <div className="absolute bottom-0 left-0 w-full h-1 bg-[var(--color-accent-highlight)] rounded-t-full shadow-[0_0_10px_rgba(62,122,140,0.5)] animate-float"></div>}
+                {previewTab === 'items' && <div className="absolute bottom-0 left-0 w-full h-2 scribble-underline opacity-80"></div>}
               </button>
             )}
           </div>
@@ -271,29 +265,33 @@ export function QuoteBuilderPage() {
           
           {/* Creator Sidebar */}
           {role === 'creator' && (
-            <div className={`lg:flex lg:w-[450px] overflow-y-auto ${isMobile && previewTab !== 'items' ? 'hidden' : 'flex'}`}>
-              <ProposalBuilderSidebar
-                proposal={proposal}
-                onUpdate={updateProposal}
-                onUpdateLineItem={updateLineItem}
-                onAddLineItem={addLineItem}
-                onRemoveLineItem={removeLineItem}
-              />
+            <div className={`lg:flex lg:w-[450px] hand-card overflow-y-auto p-6 ${isMobile && previewTab !== 'items' ? 'hidden' : 'flex'} flex-col custom-scrollbar bg-[var(--color-paper)]`}>
+              <div className="deco-tape"></div>
+              <div className="w-full mt-4">
+                <ProposalBuilderSidebar
+                  proposal={proposal}
+                  onUpdate={updateProposal}
+                  onUpdateLineItem={updateLineItem}
+                  onAddLineItem={addLineItem}
+                  onRemoveLineItem={removeLineItem}
+                />
+              </div>
             </div>
           )}
 
           {/* Client Sidebar for Negotiation */}
           {role === 'client' && proposal.status !== 'agreed' && (
-            <div className={`lg:flex lg:w-[450px] glass-panel overflow-y-auto p-8 ${isMobile && previewTab !== 'items' ? 'hidden' : 'flex'} flex-col custom-scrollbar`}>
-              <div className="space-y-8 w-full">
+            <div className={`lg:flex lg:w-[450px] hand-card overflow-y-auto p-8 ${isMobile && previewTab !== 'items' ? 'hidden' : 'flex'} flex-col custom-scrollbar`}>
+              <div className="deco-tape"></div>
+              <div className="space-y-8 w-full mt-2">
                 <div>
-                  <h3 className="text-2xl font-extrabold text-[var(--color-text-primary)] tracking-tight">Adjust Proposal</h3>
-                  <p className="text-[var(--color-text-secondary)] mt-2 text-sm leading-relaxed">Modify quantities or remove negotiable items to build a plan that works for you.</p>
+                  <h3 className="text-3xl font-heading font-extrabold text-[var(--color-pencil)] tracking-tight">Adjust Proposal</h3>
+                  <p className="text-[var(--color-pencil)] mt-2 text-lg leading-relaxed opacity-80">Modify quantities or remove negotiable items to build a plan that works for you.</p>
                 </div>
                 
                 <div className="space-y-8">
-                  <div className="glass-primary p-4 rounded-[24px]">
-                    <h4 className="text-sm font-bold text-[var(--color-text-secondary)] mb-4 uppercase tracking-wider">Features & Pricing</h4>
+                  <div className="bg-white border-[3px] border-[var(--color-pencil)] p-4 shadow-[4px_4px_0_0_#2d2d2d]" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
+                    <h4 className="text-xl font-heading font-bold text-[var(--color-pencil)] mb-4">Features & Pricing</h4>
                     <LineItemsEditor 
                       items={proposal.lineItems}
                       currency={proposal.currency}
@@ -304,9 +302,9 @@ export function QuoteBuilderPage() {
                   </div>
                   
                   <div>
-                    <h4 className="text-sm font-bold text-[var(--color-text-secondary)] mb-2 uppercase tracking-wider">Counter Offer Notes</h4>
+                    <h4 className="text-xl font-heading font-bold text-[var(--color-pencil)] mb-2">Counter Offer Notes</h4>
                     <textarea 
-                      className="w-full h-32 p-4 rounded-[16px] bg-white/50 border border-white/20 text-sm text-[var(--color-text-primary)] resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-highlight)]"
+                      className="hand-input h-32 resize-none"
                       placeholder="Add any notes, conditions, or reasoning for your counter offer here..."
                       value={proposal.notes}
                       onChange={(e) => updateProposal({ notes: e.target.value })}
@@ -315,7 +313,7 @@ export function QuoteBuilderPage() {
                 </div>
                 
                 <button 
-                  className="glass-button-primary w-full mt-6 h-16 text-lg font-bold" 
+                  className="hand-button w-full mt-6 text-xl bg-[var(--color-postit)]" 
                   onClick={async () => {
                     const success = await submitNegotiation('client', 'negotiate');
                     if (success) {
@@ -339,8 +337,8 @@ export function QuoteBuilderPage() {
           {/* Preview Area */}
           <div className={`flex-1 overflow-y-auto bg-transparent custom-scrollbar ${isMobile && previewTab === 'items' ? 'hidden' : 'block'}`}>
             {previewTab === 'preview' && (
-              <div id="proposal-preview" className="mx-auto max-w-4xl glass-primary rounded-[32px] overflow-hidden p-2 shadow-glass animate-glass-float" style={{ animationDuration: '8s' }}>
-                <div className="bg-white rounded-[24px] overflow-hidden">
+              <div id="proposal-preview" className="mx-auto max-w-4xl hand-card bg-white p-4 lg:p-8" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
+                <div className="bg-white">
                   <ProposalPreview proposal={proposal} />
                 </div>
               </div>

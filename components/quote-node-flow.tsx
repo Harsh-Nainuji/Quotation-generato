@@ -19,11 +19,11 @@ import { ProposalData, LineItem } from '@/lib/types';
 // Custom node component for products
 const ProductNode = ({ data }: any) => {
   return (
-    <div className="glass-panel p-4 w-[220px] shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+    <div className="bg-white border-2 border-[var(--color-pencil)] p-4 w-[220px] shadow-[4px_4px_0_0_#2d2d2d] transition-transform duration-200 hover:-translate-y-1 rotate-1" style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
       <Handle type="target" position={Position.Top} className="w-2 h-2 opacity-0" />
-      <div className="font-semibold text-sm text-[var(--color-text-primary)] mb-1">{data.description || 'Unnamed Product'}</div>
-      <div className="text-xs text-[var(--color-text-secondary)] font-medium">Qty: {data.quantity}</div>
-      <div className="text-sm text-[var(--color-accent-highlight)] font-bold mt-2">
+      <div className="font-heading font-bold text-xl text-[var(--color-pencil)] mb-1 leading-tight">{data.description || 'Unnamed Product'}</div>
+      <div className="text-sm font-bold opacity-80">Qty: {data.quantity}</div>
+      <div className="text-lg text-[var(--color-pen-blue)] font-bold mt-2">
         {data.currencySymbol}{data.rate.toFixed(2)} / ea
       </div>
       <Handle type="source" position={Position.Bottom} className="w-2 h-2 opacity-0" />
@@ -34,16 +34,17 @@ const ProductNode = ({ data }: any) => {
 // Custom node component for functions
 const FunctionNode = ({ data }: any) => {
   return (
-    <div className={`glass-primary p-4 w-[220px] rounded-[24px] text-center shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 border-t-[3px] ${data.isNegotiable ? 'border-t-[var(--color-accent-glacier)]' : 'border-t-[var(--color-accent-moonstone)]'}`}>
+    <div className={`bg-[var(--color-postit)] p-4 w-[220px] border-2 border-[var(--color-pencil)] shadow-[4px_4px_0_0_#2d2d2d] transition-transform duration-200 hover:-translate-y-1 -rotate-1 relative`}>
+      <div className="deco-tack"></div>
       <Handle type="target" position={Position.Top} className="w-2 h-2 opacity-0" />
-      <div className="font-semibold text-sm text-[var(--color-text-primary)] mb-1">{data.description || 'Function'}</div>
-      <div className="text-sm text-[var(--color-text-primary)] font-bold mt-2">
+      <div className="font-heading font-bold text-xl text-[var(--color-pencil)] mb-1 leading-tight mt-2">{data.description || 'Function'}</div>
+      <div className="text-lg text-[var(--color-marker-red)] font-bold mt-2">
         {data.currencySymbol}{(data.rate * data.quantity).toFixed(2)}
       </div>
       {data.isNegotiable ? (
-        <div className="glass-badge mt-3 text-[var(--color-accent-highlight)] bg-white/40">Negotiable</div>
+        <div className="inline-block mt-3 text-sm font-bold px-2 border-2 border-dashed border-[var(--color-pencil)] rotate-2">Negotiable</div>
       ) : (
-        <div className="glass-badge mt-3 text-[var(--color-text-muted)] bg-white/40">Fixed</div>
+        <div className="inline-block mt-3 text-sm font-bold px-2 border-2 border-dashed border-[var(--color-pencil)] opacity-50 -rotate-2">Fixed</div>
       )}
       <Handle type="source" position={Position.Bottom} className="w-2 h-2 opacity-0" />
     </div>
