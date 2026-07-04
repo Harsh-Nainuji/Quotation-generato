@@ -4,11 +4,12 @@ import Quote from '@/lib/models/Quote';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
-    const quote = await Quote.findOne({ shortId: params.id });
+    const { id } = await params;
+    const quote = await Quote.findOne({ shortId: id });
     
     if (!quote) {
       return NextResponse.json({ success: false, error: 'Quote not found' }, { status: 404 });
@@ -23,10 +24,11 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
+    const { id } = await params;
     const data = await request.json();
     
     // Prevent immutable field modifications
@@ -36,7 +38,7 @@ export async function PUT(
     updateData.version = (updateData.version || 1) + 1;
     
     const quote = await Quote.findOneAndUpdate(
-      { shortId: params.id },
+      { shortId: id },
       { $set: updateData },
       { new: true, runValidators: true }
     );

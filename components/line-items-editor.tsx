@@ -120,7 +120,7 @@ export function LineItemsEditor({
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[11px] text-slate-500 font-medium">Flow Level:</span>
-                <Select value={String(item.level || 1)} onValueChange={(value) => onUpdateItem(item.id, { level: parseInt(value) })}>
+                <Select value={String(item.level || 1)} onValueChange={(value) => onUpdateItem(item.id, { level: parseInt(value || '1') })}>
                   <SelectTrigger className="h-6 w-[60px] text-[11px] bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                     <SelectValue />
                   </SelectTrigger>
